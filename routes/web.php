@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Author\DashboardController as AuthorDashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +21,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth' ,'admin','verified']], function(){
+    Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::group(['prefix' => 'author', 'as' => 'author.', 'namespace' => 'Author', 'middleware' => ['auth','author','verified']], function(){
+    Route::get('dashboard', [AuthorDashboardController::class, 'index'])->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
