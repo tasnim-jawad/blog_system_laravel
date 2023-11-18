@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 
-@section('title', 'tag')
+@section('title', 'category')
 @push('css')
 
 @endpush
@@ -10,9 +10,9 @@
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <a class="btn btn-primary waves-effect" href="{{Route('admin.tag.create')}}">
+                <a class="btn btn-primary waves-effect" href="{{Route('admin.category.create')}}">
                     <i class="material-icons">add</i>
-                    <span>Add Tag</span>
+                    <span>Add category</span>
                 </a>
             </div>
 
@@ -22,7 +22,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                ALL TAGS
+                                ALL CATEGORIES
                             </h2>
                         </div>
                         <div class="body">
@@ -47,21 +47,20 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @if (!empty($tag) && count($tag) > 0)
-                                            @foreach ($tag as $key=>$tag)
+                                        @if (!empty($categories) && count($categories) > 0)
+                                            @foreach ($categories as $key=>$category)
                                             <tr>
                                                 <td>{{$key + 1}}</td>
-                                                <td>{{ucwords($tag->name) }}</td>
-                                                <td>{{$tag->created_at}}</td>
-                                                <td>{{$tag->updated_at}}</td>
+                                                <td>{{ucwords($category->name) }}</td>
+                                                <td>{{$category->created_at}}</td>
+                                                <td>{{$category->updated_at}}</td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-sm btn-info waves-effect" href="{{Route('admin.tag.edit' ,$tag->id)}}"><i class="material-icons">edit</i></a>
-                                                    {{-- <a class="btn btn-sm btn-danger" href="{{Route('admin.tag.destroy' ,$tag->id)}}"><i class="material-icons">delete</i></a> --}}
-                                                    <button class="btn btn-sm btn-danger waves-effect" type="button" onclick="deleteTag({{$tag->id}})">
+                                                    <a class="btn btn-sm btn-info waves-effect" href="{{Route('admin.category.edit' ,$category->id)}}"><i class="material-icons">edit</i></a>
+                                                    <button class="btn btn-sm btn-danger waves-effect" type="button" onclick="deleteCategory({{$category->id}})">
                                                         <i class="material-icons">delete</i>
                                                     </button>
 
-                                                    <form class="d-none" id="delete-form-{{$tag->id}}" action="{{Route('admin.tag.destroy' ,$tag->id)}}" method="POST">
+                                                    <form class="d-none" id="delete-form-{{$category->id}}" action="{{Route('admin.category.destroy' ,$category->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -101,7 +100,7 @@
     <script src="{{asset('backend')}}/js/pages/tables/jquery-datatable.js"></script>
 
     <script type="text/javascript">
-        function deleteTag(id) {
+        function deleteCategory(id) {
             const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: "btn btn-success",
@@ -122,11 +121,6 @@
                 event.preventDefault();
                 document.getElementById('delete-form-'+id).submit();
 
-                // swalWithBootstrapButtons.fire({
-                // title: "Deleted!",
-                // text: "Your file has been deleted.",
-                // icon: "success"
-                // });
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel

@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 
-@section('title', 'create tag')
+@section('title', 'edit category')
 @push('css')
 
 @endpush
@@ -36,11 +36,12 @@
                         </ul>
                     </div>
                     <div class="body">
-                        <form action="{{Route('admin.tag.store')}}" method="POST" >
+                        <form action="{{Route('admin.category.update',$category->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" id="name" name="name" class="form-control">
+                                    <input type="text" id="name" name="name" class="form-control" value="{{$category->name}}">
                                     <label for="name" class="form-label">Category name</label>
                                 </div>
                                 {{-- individual error message --}}
@@ -48,8 +49,14 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <div class="form-control">
+                                    <label for="image" class="form-label">Upload Image - if want to change</label>
+                                    <input type="file" id="image" name="image" class="form-control">
+                                </div>
+                            </div>
                             <br>
-                            <a href="{{Route('admin.tag.index')}}" class="btn btn-danger waves-effect m-t-15">BACK</a>
+                            <a href="{{Route('admin.category.index')}}" class="btn btn-danger waves-effect m-t-15">BACK</a>
                             <button type="submit" class="btn btn-primary m-t-15 waves-effect">Submit</button>
                         </form>
                     </div>
