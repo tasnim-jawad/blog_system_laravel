@@ -1,6 +1,6 @@
 @extends('layouts.backend.app')
 
-@section('title', 'edit tag')
+@section('title', 'create category')
 @push('css')
 
 @endpush
@@ -36,13 +36,11 @@
                         </ul>
                     </div>
                     <div class="body">
-                        <form action="{{Route('admin.tag.update',$tag->id)}}" method="POST" >
+                        <form action="{{Route('admin.category.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
                             <div class="form-group form-float">
-
                                 <div class="form-line">
-                                    <input type="text" id="name" name="name" class="form-control" value="{{$tag->name}}">
+                                    <input type="text" id="name" name="name" class="form-control">
                                     <label for="name" class="form-label">Category name</label>
                                 </div>
                                 {{-- individual error message --}}
@@ -50,8 +48,18 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <div class="form-control">
+                                    <label for="image" class="form-label">Upload Image</label>
+                                    <input type="file" id="image" name="image" class="form-control">
+                                </div>
+                                {{-- individual error message --}}
+                                @error('image')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
                             <br>
-                            <a href="{{Route('admin.tag.index')}}" class="btn btn-danger waves-effect m-t-15">BACK</a>
+                            <a href="{{Route('admin.category.index')}}" class="btn btn-danger waves-effect m-t-15">BACK</a>
                             <button type="submit" class="btn btn-primary m-t-15 waves-effect">Submit</button>
                         </form>
                     </div>

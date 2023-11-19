@@ -22,7 +22,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                ALL TAGS
+                                ALL TAGS <span class="badge bg-blue">{{$tag->count()}}</span>
                             </h2>
                         </div>
                         <div class="body">
@@ -32,6 +32,7 @@
                                         <tr>
                                             <th>srl#</th>
                                             <th>Name</th>
+                                            <th>Post count</th>
                                             <th>Createed at</th>
                                             <th>Updated at</th>
                                             <th>action</th>
@@ -41,6 +42,7 @@
                                         <tr>
                                             <th>srl#</th>
                                             <th>Name</th>
+                                            <th>Post count</th>
                                             <th>Createed at</th>
                                             <th>Updated at</th>
                                             <th>action</th>
@@ -52,6 +54,7 @@
                                             <tr>
                                                 <td>{{$key + 1}}</td>
                                                 <td>{{ucwords($tag->name) }}</td>
+                                                <td>{{$tag->posts->count()}}</td>
                                                 <td>{{$tag->created_at}}</td>
                                                 <td>{{$tag->updated_at}}</td>
                                                 <td class="text-center">

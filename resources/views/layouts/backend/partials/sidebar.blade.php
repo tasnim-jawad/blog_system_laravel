@@ -54,6 +54,12 @@
                             <span>Category</span>
                         </a>
                     </li>
+                    <li class="{{Request::is('admin/post*') ? 'active' : ''}}">
+                        <a href="{{Route('admin.post.index')}}">
+                            <i class="material-icons">library_books</i>
+                            <span>Post</span>
+                        </a>
+                    </li>
                     <li class="header">System</li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
