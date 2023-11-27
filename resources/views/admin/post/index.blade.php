@@ -85,7 +85,7 @@
                                                             @method('PUT')
                                                         </form>
                                                     @else
-                                                        <button type="button" class="btn btn-success waves-effect" disabled>
+                                                        <button type="button" class="btn btn-sm btn-success waves-effect" disabled>
                                                             <i class="material-icons">done</i>
                                                         </button>
                                                     @endif
