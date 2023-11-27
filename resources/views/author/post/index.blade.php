@@ -4,13 +4,13 @@
 @push('css')
 
 @endpush
-@section('theme','theme-red')
+@section('theme','theme-blue')
 
 @section('content')
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <a class="btn btn-primary waves-effect" href="{{Route('admin.post.create')}}">
+                <a class="btn btn-primary waves-effect" href="{{Route('author.post.create')}}">
                     <i class="material-icons">add</i>
                     <span>Add Post</span>
                 </a>
@@ -37,6 +37,7 @@
                                             <th>Is approved</th>
                                             <th>Status</th>
                                             <th>Createed at</th>
+                                            <th>Updated at</th>
                                             <th>action</th>
                                         </tr>
                                     </thead>
@@ -49,6 +50,7 @@
                                             <th>Is approved</th>
                                             <th>Status</th>
                                             <th>Createed at</th>
+                                            <th>Updated at</th>
                                             <th>action</th>
                                         </tr>
                                     </tfoot>
@@ -75,27 +77,15 @@
                                                     @endif
                                                 </td>
                                                 <td>{{$post->created_at}}</td>
+                                                <td>{{$post->updated_at}}</td>
                                                 <td class="text-center">
-                                                    @if ($post->is_approved == false)
-                                                        <button type="button" class="btn btn-sm btn-warning waves-effect" onclick="approvePost({{$post->id}})">
-                                                            <i class="material-icons">pending</i>
-                                                        </button>
-                                                        <form style="display: none" action="{{Route('admin.post.approve',$post->id)}}" method="POST" id="approval-form" >
-                                                            @csrf
-                                                            @method('PUT')
-                                                        </form>
-                                                    @else
-                                                        <button type="button" class="btn btn-success waves-effect" disabled>
-                                                            <i class="material-icons">done</i>
-                                                        </button>
-                                                    @endif
-                                                    <a class="btn btn-sm btn-primary waves-effect" href="{{Route('admin.post.show' ,$post->id)}}"><i class="material-icons">visibility</i></a>
-                                                    <a class="btn btn-sm btn-info waves-effect" href="{{Route('admin.post.edit' ,$post->id)}}"><i class="material-icons">edit</i></a>
+                                                    <a class="btn btn-sm btn-warning waves-effect" href="{{Route('author.post.show' ,$post->id)}}"><i class="material-icons">visibility</i></a>
+                                                    <a class="btn btn-sm btn-info waves-effect" href="{{Route('author.post.edit' ,$post->id)}}"><i class="material-icons">edit</i></a>
                                                     <button class="btn btn-sm btn-danger waves-effect" type="button" onclick="deletePost({{$post->id}})">
                                                         <i class="material-icons">delete</i>
                                                     </button>
 
-                                                    <form style="display: none" id="delete-form-{{$post->id}}" action="{{Route('admin.post.destroy' ,$post->id)}}" method="POST">
+                                                    <form class="d-none" id="delete-form-{{$post->id}}" action="{{Route('author.post.destroy' ,$post->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                     </form>
@@ -155,40 +145,6 @@
             if (result.isConfirmed) {
                 event.preventDefault();
                 document.getElementById('delete-form-'+id).submit();
-
-            } else if (
-                /* Read more about handling dismissals below */
-                result.dismiss === Swal.DismissReason.cancel
-            ) {
-                swalWithBootstrapButtons.fire({
-                title: "Cancelled",
-                text: "Your imaginary file is safe :)",
-                icon: "error"
-                });
-            }
-            });
-        }
-
-        function approvePost(id) {
-            const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
-            },
-            buttonsStyling: false
-            });
-            swalWithBootstrapButtons.fire({
-            title: "Are you sure?",
-            text: "Do you want to approve this post!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, approve it!",
-            cancelButtonText: "No, cancel!",
-            reverseButtons: true
-            }).then((result) => {
-            if (result.isConfirmed) {
-                event.preventDefault();
-                document.getElementById('approval-form').submit();
 
             } else if (
                 /* Read more about handling dismissals below */

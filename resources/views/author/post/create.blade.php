@@ -5,7 +5,7 @@
     <!-- Bootstrap Select Css -->
     <link href="{{asset('backend')}}/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 @endpush
-@section('theme','theme-red')
+@section('theme','theme-blue')
 
 @section('content')
 <section class="content">
@@ -14,7 +14,7 @@
             <h2>FORM EXAMPLES</h2>
         </div>
 
-        <form action="{{Route('admin.post.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{Route('author.post.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
             <!-- Vertical Layout | With Floating Label -->
             <div class="row clearfix">
@@ -87,7 +87,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <a href="{{Route('admin.post.index')}}" class="btn btn-danger waves-effect m-t-15">BACK</a>
+                                <a href="{{Route('author.post.index')}}" class="btn btn-danger waves-effect m-t-15">BACK</a>
                                 <button type="submit" class="btn btn-primary m-t-15 waves-effect">Submit</button>
                         </div>
                     </div>

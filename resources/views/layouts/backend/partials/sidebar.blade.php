@@ -60,6 +60,12 @@
                             <span>Post</span>
                         </a>
                     </li>
+                    <li class="{{Request::is('admin/pending/post') ? 'active' : ''}}">
+                        <a href="{{Route('admin.post.pending')}}">
+                            <i class="material-icons">pending_actions</i>
+                            <span>Pending Post</span>
+                        </a>
+                    </li>
                     <li class="header">System</li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
@@ -81,6 +87,12 @@
                         <a href="{{Route('author.dashboard')}}">
                             <i class="material-icons">dashboard</i>
                             <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="{{Request::is('author/post*') ? 'active' : ''}}">
+                        <a href="{{Route('author.post.index')}}">
+                            <i class="material-icons">library_books</i>
+                            <span>Post</span>
                         </a>
                     </li>
                     <li class="header">System</li>

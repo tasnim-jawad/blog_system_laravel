@@ -5,7 +5,7 @@
     <!-- Bootstrap Select Css -->
     <link href="{{asset('backend')}}/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 @endpush
-@section('theme','theme-red')
+@section('theme','theme-blue')
 
 @section('content')
 <section class="content">
@@ -14,8 +14,9 @@
             <h2>FORM EXAMPLES</h2>
         </div>
 
-        <form action="{{Route('admin.post.store')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{Route('author.post.update',$post->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
             <!-- Vertical Layout | With Floating Label -->
             <div class="row clearfix">
                 <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12">
@@ -28,27 +29,19 @@
                         <div class="body">
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" id="title" name="title" class="form-control">
+                                    <input type="text" id="title" name="title" class="form-control" value="{{$post->title}}">
                                     <label for="title" class="form-label">Post title</label>
                                 </div>
-                                {{-- individual error message --}}
-                                @error('name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                             <div class="form-group">
                                 <div class="form-control">
                                     <label for="image" class="form-label">Upload Image</label>
                                     <input type="file" id="image" name="image" class="form-control">
                                 </div>
-                                {{-- individual error message --}}
-                                @error('image')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                             <br>
                             <div class="form-group">
-                                <input type="checkbox" id="Publish" name="status" class="filled-in" >
+                                <input type="checkbox" id="Publish" name="status" class="filled-in" {{$post->status == true ? 'checked' :''}} >
                                 <label for="Publish">Publish</label>
                             </div>
                         </div>
@@ -68,7 +61,11 @@
                                         <select name="categories[]" id="category" class="form-control show-tick"
                                         data-live-search="true" multiple>
                                             @foreach ($categories as $category)
-                                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                                <option
+                                                    @foreach ($post->categories as $postCategory)
+                                                        {{$postCategory->id == $category->id ? 'selected':''}}
+                                                    @endforeach
+                                                value="{{$category->id}}" > {{$category->name}} </option>
                                             @endforeach
                                         </select>
                                         {{-- <label for="name" class="form-label">Category</label> --}}
@@ -80,14 +77,16 @@
                                         <select name="tags[]" id="tag" class="form-control show-tick"
                                         data-live-search="true" multiple>
                                             @foreach ($tags as $tag)
-                                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                                <option value="{{$tag->id}}"
+                                                    {{ in_array($tag->id, $post->tags->pluck('id')->toArray()) ? 'selected' : '' }}
+                                                    >{{$tag->name}}</option>
                                             @endforeach
                                         </select>
                                         {{-- <label for="name" class="form-label">Category</label> --}}
                                     </div>
                                 </div>
                                 <br>
-                                <a href="{{Route('admin.post.index')}}" class="btn btn-danger waves-effect m-t-15">BACK</a>
+                                <a href="{{Route('author.post.index')}}" class="btn btn-danger waves-effect m-t-15">BACK</a>
                                 <button type="submit" class="btn btn-primary m-t-15 waves-effect">Submit</button>
                         </div>
                     </div>
@@ -102,7 +101,7 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <textarea name="body" id="tinymce"></textarea>
+                            <textarea name="body" id="tinymce">{{$post->body}}</textarea>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Author;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
@@ -21,8 +21,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->get();
-        return view('admin.post.index',compact('posts'));
+        $posts = Auth::user()->posts()->latest()->get();
+        return view('author.post.index',compact('posts'));
     }
 
     /**
@@ -32,7 +32,7 @@ class PostController extends Controller
     {
         $tags = Tag::all();
         $categories = Category::all();
-        return view('admin.post.create',compact('tags','categories'));
+        return view('author.post.create',compact('tags','categories'));
     }
 
     /**
@@ -78,14 +78,14 @@ class PostController extends Controller
         }else{
             $post->status = false;
         }
-        $post->is_approved = true;
+        $post->is_approved = false;
         $post->save();
 
         $post->categories()->attach($request->categories);
         $post->tags()->attach($request->tags);
 
         Toastr::success('post successfully saved', 'success');
-        return redirect()->Route('admin.post.index');
+        return redirect()->Route('author.post.index');
     }
 
     /**
@@ -93,7 +93,12 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('admin.post.show',compact('post'));
+        if($post->user_id != Auth::id())
+        {
+            Toastr::error('You are not an authorized person to view this post', 'Error');
+            return redirect()->back();
+        }
+        return view('author.post.show',compact('post'));
     }
 
     /**
@@ -101,9 +106,14 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if($post->user_id != Auth::id())
+        {
+            Toastr::error('You are not an authorized person to edit this post', 'Error');
+            return redirect()->back();
+        }
         $tags = Tag::all();
         $categories = Category::all();
-        return view('admin.post.edit',compact('post','tags','categories'));
+        return view('author.post.edit',compact('post','tags','categories'));
     }
 
     /**
@@ -152,47 +162,26 @@ class PostController extends Controller
         }else{
             $post->status = false;
         }
-        $post->is_approved = true;
+        $post->is_approved = false;
         $post->save();
 
         $post->categories()->sync($request->categories);
         $post->tags()->sync($request->tags);
 
         Toastr::success('post successfully updated', 'success');
-        return redirect()->Route('admin.post.index');
+        return redirect()->Route('author.post.index');
     }
-
-    /**
-     * Display All pending posts.
-     */
-    public function pending()
-    {
-        $posts = Post::where('is_approved',false)->get();
-        return view('admin.post.pending',compact('posts'));
-    }
-
-
-    public function approval($id){
-        $post = Post::find($id);
-
-        if($post->is_approved == false){
-            $post->is_approved = true;
-        }else{
-            Toastr::info('The post is already approved ', 'info');
-        }
-        $post->save();
-        Toastr::success('The post is approved ', 'Success');
-        return redirect()->back();
-    }
-
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Post $post)
     {
-
+        if($post->user_id != Auth::id())
+        {
+            Toastr::error('You are not an authorized person to edit this post', 'Error');
+            return redirect()->back();
+        }
         if(Storage::disk('public')->exists('post/'.$post->image)){
             Storage::disk('public')->delete('post/'.$post->image);
         }

@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            ADD NEW CATEGORY
+                            ADD NEW TAG
                         </h2>
                         <ul class="header-dropdown m-r--5">
                             <li class="dropdown">
@@ -41,7 +41,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <input type="text" id="name" name="name" class="form-control">
-                                    <label for="name" class="form-label">Category name</label>
+                                    <label for="name" class="form-label">Tag name</label>
                                 </div>
                                 {{-- individual error message --}}
                                 @error('name')
