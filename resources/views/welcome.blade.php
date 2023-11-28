@@ -420,5 +420,5 @@
 @endsection
 
 @push('js')
-    <script src="common-js/swiper.js{{asset('frontend/js/swiper.js')}}"></script>
+    <script src="{{asset('frontend/js/swiper.js')}}"></script>
 @endpush

@@ -7,7 +7,9 @@ use App\Http\Controllers\Author\DashboardController as AuthorDashboardController
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use App\Http\Controllers\Author\PostController as AuthorPostController;
+use App\Http\Controllers\SubscriberController;
 
 
 
@@ -26,9 +28,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('subscriber',[SubscriberController::class,'store'])->name('subscriber.store');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'admin','verified']], function(){
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -38,6 +38,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'a
 
     Route::get('pending/post',[PostController::class, 'pending'])->name('post.pending');
     Route::put('/post/{id}/approve',[PostController::class, 'approval'])->name('post.approve');
+
+    Route::get('subscriber',[AdminSubscriberController::class,'index'])->name('subscriber.index');
+    Route::delete('subscriber/{id}',[AdminSubscriberController::class,'destroy'])->name('subscriber.destroy');
 
 });
 
