@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use App\Http\Controllers\Author\PostController as AuthorPostController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\SettingsController;
 
 
 
@@ -24,9 +26,7 @@ use App\Http\Controllers\SubscriberController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[HomeController::class , 'index'])->name('home');
 
 Route::post('subscriber',[SubscriberController::class,'store'])->name('subscriber.store');
 
@@ -41,6 +41,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'a
 
     Route::get('subscriber',[AdminSubscriberController::class,'index'])->name('subscriber.index');
     Route::delete('subscriber/{id}',[AdminSubscriberController::class,'destroy'])->name('subscriber.destroy');
+
+    Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('update-profile', [SettingsController::class, 'updateProfile'])->name('update.profile');
+    Route::put('update-password', [SettingsController::class, 'updatePassword'])->name('update.password');
 
 });
 

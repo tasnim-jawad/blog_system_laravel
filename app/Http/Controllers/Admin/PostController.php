@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\AuthorPostApprove;
+use Illuminate\Notifications\Notifiable;
+use App\Models\Subscriber;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewPostNotify;
 
 class PostController extends Controller
 {
@@ -83,6 +88,12 @@ class PostController extends Controller
 
         $post->categories()->attach($request->categories);
         $post->tags()->attach($request->tags);
+
+        $subscribers = Subscriber::all();
+        foreach($subscribers as $subscriber){
+            Notification::route('mail', $subscriber->email)
+                        ->notify(new NewPostNotify($post));
+        }
 
         Toastr::success('post successfully saved', 'success');
         return redirect()->Route('admin.post.index');
@@ -177,11 +188,21 @@ class PostController extends Controller
 
         if($post->is_approved == false){
             $post->is_approved = true;
+            $post->save();
+
+            $post->user->notify(new AuthorPostApprove($post));
+
+            $subscribers = Subscriber::all();
+            foreach($subscribers as $subscriber){
+                Notification::route('mail', $subscriber->email)
+                            ->notify(new NewPostNotify($post));
+        }
+
+            Toastr::success('The post is approved ', 'Success');
         }else{
             Toastr::info('The post is already approved ', 'info');
         }
-        $post->save();
-        Toastr::success('The post is approved ', 'Success');
+
         return redirect()->back();
     }
 

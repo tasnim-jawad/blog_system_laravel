@@ -73,6 +73,12 @@
                         </a>
                     </li>
                     <li class="header">System</li>
+                    <li class="{{Request::is('admin/settings') ? 'active' : ''}}">
+                        <a href="{{Route('admin.settings.index')}}">
+                            <i class="material-icons">settings</i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
