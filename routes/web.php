@@ -12,6 +12,7 @@ use App\Http\Controllers\Author\PostController as AuthorPostController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Author\SettingsController as AuthorSettingsController;
 
 
 
@@ -51,6 +52,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'a
 Route::group(['prefix' => 'author', 'as' => 'author.', 'middleware' => ['auth','author','verified']], function(){
     Route::get('dashboard', [AuthorDashboardController::class, 'index'])->name('dashboard');
     Route::resource('post', AuthorPostController::class);
+
+    Route::get('settings', [AuthorSettingsController::class, 'index'])->name('settings.index');
+    Route::put('update-profile', [AuthorSettingsController::class, 'updateProfile'])->name('update.profile');
+    Route::put('update-password', [AuthorSettingsController::class, 'updatePassword'])->name('update.password');
 });
 
 Route::middleware('auth')->group(function () {

@@ -14,20 +14,8 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            PROFILE VIEW
+                            PROFILE UPDATE
                         </h2>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
-                                    <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
-                                    <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
-                                </ul>
-                            </li>
-                        </ul>
                     </div>
                     <div class="body">
                         <!-- Nav tabs -->
@@ -48,7 +36,7 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="profile_with_icon_title">
                                 <div class="body">
-                                    <form action="{{Route('admin.update.profile')}}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                    <form action="{{Route('author.update.profile')}}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                         @csrf
                                         @method('PUT')
                                         <div class="row clearfix">
@@ -109,7 +97,7 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="password_with_icon_title">
                                 <div class="body">
-                                    <form action="{{Route('admin.update.password')}}" method="POST" class="form-horizontal">
+                                    <form action="{{Route('author.update.password')}}" method="POST" class="form-horizontal">
                                         @csrf
                                         @method('PUT')
                                         <div class="row clearfix">
