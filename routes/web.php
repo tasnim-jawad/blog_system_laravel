@@ -6,13 +6,17 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Author\DashboardController as AuthorDashboardController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use App\Http\Controllers\Author\PostController as AuthorPostController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Author\SettingsController as AuthorSettingsController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\Admin\FavoriteController as AdminFavoriteController;
+use App\Http\Controllers\Author\FavoriteController as AuthorFavoriteController;
+use App\Http\Controllers\PostController;
 
 
 
@@ -30,15 +34,21 @@ use App\Http\Controllers\Author\SettingsController as AuthorSettingsController;
 Route::get('/',[HomeController::class , 'index'])->name('home');
 
 Route::post('subscriber',[SubscriberController::class,'store'])->name('subscriber.store');
+Route::get('post/{slug}',[PostController::class,'details'])->name('post.details');
+Route::get('posts',[PostController::class,'index'])->name('posts.index');
+
+Route::group(['middleware' => ['auth']],function(){
+    Route::post('favorite/{post}/add',[FavoriteController::class,'add'])->name('post.favorite');
+});
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'admin','verified']], function(){
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::resource('tag', TagController::class);
     Route::resource('category', CategoryController::class);
-    Route::resource('post', PostController::class);
+    Route::resource('post', AdminPostController::class);
 
-    Route::get('pending/post',[PostController::class, 'pending'])->name('post.pending');
-    Route::put('/post/{id}/approve',[PostController::class, 'approval'])->name('post.approve');
+    Route::get('pending/post',[AdminPostController::class, 'pending'])->name('post.pending');
+    Route::put('/post/{id}/approve',[AdminPostController::class, 'approval'])->name('post.approve');
 
     Route::get('subscriber',[AdminSubscriberController::class,'index'])->name('subscriber.index');
     Route::delete('subscriber/{id}',[AdminSubscriberController::class,'destroy'])->name('subscriber.destroy');
@@ -46,6 +56,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'a
     Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('update-profile', [SettingsController::class, 'updateProfile'])->name('update.profile');
     Route::put('update-password', [SettingsController::class, 'updatePassword'])->name('update.password');
+
+    Route::get('favorite',[AdminFavoriteController::class,'index'])->name('favorite.index');
 
 });
 
@@ -56,6 +68,8 @@ Route::group(['prefix' => 'author', 'as' => 'author.', 'middleware' => ['auth','
     Route::get('settings', [AuthorSettingsController::class, 'index'])->name('settings.index');
     Route::put('update-profile', [AuthorSettingsController::class, 'updateProfile'])->name('update.profile');
     Route::put('update-password', [AuthorSettingsController::class, 'updatePassword'])->name('update.password');
+
+    Route::get('favorite',[AuthorFavoriteController::class,'index'])->name('favorite.index');
 });
 
 Route::middleware('auth')->group(function () {
