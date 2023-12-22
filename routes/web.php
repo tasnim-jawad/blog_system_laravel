@@ -17,6 +17,9 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin\FavoriteController as AdminFavoriteController;
 use App\Http\Controllers\Author\FavoriteController as AuthorFavoriteController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
+use App\Http\Controllers\Author\CommentController as AuthorCommentController;
 
 
 
@@ -39,6 +42,7 @@ Route::get('posts',[PostController::class,'index'])->name('posts.index');
 
 Route::group(['middleware' => ['auth']],function(){
     Route::post('favorite/{post}/add',[FavoriteController::class,'add'])->name('post.favorite');
+    Route::post('comment/{post}',[CommentController::class,'store'])->name('comment.store');
 });
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'admin','verified']], function(){
@@ -59,6 +63,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'a
 
     Route::get('favorite',[AdminFavoriteController::class,'index'])->name('favorite.index');
 
+    Route::get('comments',[AdminCommentController::class,'index'])->name('comments.index');
+    Route::delete('comments/{id}',[AdminCommentController::class,'destroy'])->name('comments.destroy');
+
 });
 
 Route::group(['prefix' => 'author', 'as' => 'author.', 'middleware' => ['auth','author','verified']], function(){
@@ -70,6 +77,9 @@ Route::group(['prefix' => 'author', 'as' => 'author.', 'middleware' => ['auth','
     Route::put('update-password', [AuthorSettingsController::class, 'updatePassword'])->name('update.password');
 
     Route::get('favorite',[AuthorFavoriteController::class,'index'])->name('favorite.index');
+
+    Route::get('comments',[AuthorCommentController::class,'index'])->name('comments.index');
+    Route::delete('comments/{id}',[AuthorCommentController::class,'destroy'])->name('comments.destroy');
 });
 
 Route::middleware('auth')->group(function () {
