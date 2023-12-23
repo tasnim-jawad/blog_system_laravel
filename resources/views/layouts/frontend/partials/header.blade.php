@@ -1,7 +1,7 @@
 <header>
     <div class="container-fluid position-relative no-side-padding">
 
-        <a href="{{Route('home')}}" class="logo">LOGO</a>
+        <a href="{{Route('home')}}" class="logo">{{config('app.name')}}</a>
 
         <div class="menu-nav-icon" data-nav-menu="#main-menu"><i class="ion-navicon"></i></div>
 
@@ -21,9 +21,9 @@
         </ul><!-- main-menu -->
 
         <div class="src-area">
-            <form>
+            <form action="{{ Route('search') }}" method="GET" >
                 <button class="src-btn" type="submit"><i class="ion-ios-search-strong"></i></button>
-                <input class="src-input" type="text" placeholder="Type of search">
+                <input class="src-input" type="text" name="query" placeholder="Type of search" value="{{ isset($query) ? $query : ""}}">
             </form>
         </div>
 

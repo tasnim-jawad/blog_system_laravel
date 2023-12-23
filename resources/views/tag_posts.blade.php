@@ -25,7 +25,7 @@
 @section('content')
     <div class="header_bg">
         <div class="display-table  center-text">
-			<h1 class="title display-table-cell"><b>All POSTS</b></h1>
+			<h1 class="title display-table-cell"><b>{{$tag->name}}</b></h1>
 		</div>
     </div><!-- slider -->
 
@@ -33,7 +33,7 @@
         <div class="container">
             <div class="row">
 
-                @foreach ($posts as $post )
+                @foreach ($tag->posts as $post )
 
                     <div class="col-lg-4 col-md-6">
                         <div class="card h-100">
@@ -84,7 +84,7 @@
 
             </div><!-- row -->
 
-            {{$posts->links()}} <!-- pagination -->
+            {{-- {{$posts->links()}} <!-- pagination --> --}}
 
         </div><!-- container -->
     </section>

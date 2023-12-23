@@ -6,20 +6,22 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Author\DashboardController as AuthorDashboardController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\PostController as AdminPostController;
-use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
-use App\Http\Controllers\Author\PostController as AuthorPostController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Author\PostController as AuthorPostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Author\SettingsController as AuthorSettingsController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin\FavoriteController as AdminFavoriteController;
 use App\Http\Controllers\Author\FavoriteController as AuthorFavoriteController;
-use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Author\CommentController as AuthorCommentController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Admin\AuthorController;
 
 
 
@@ -39,6 +41,11 @@ Route::get('/',[HomeController::class , 'index'])->name('home');
 Route::post('subscriber',[SubscriberController::class,'store'])->name('subscriber.store');
 Route::get('post/{slug}',[PostController::class,'details'])->name('post.details');
 Route::get('posts',[PostController::class,'index'])->name('posts.index');
+
+Route::get('category/{slug}',[PostController::class,'postByCategory'])->name('category.posts');
+Route::get('tag/{slug}',[PostController::class,'postByTag'])->name('tag.posts');
+
+Route::get('search',[SearchController::class,'search'])->name('search');
 
 Route::group(['middleware' => ['auth']],function(){
     Route::post('favorite/{post}/add',[FavoriteController::class,'add'])->name('post.favorite');
@@ -66,6 +73,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'a
     Route::get('comments',[AdminCommentController::class,'index'])->name('comments.index');
     Route::delete('comments/{id}',[AdminCommentController::class,'destroy'])->name('comments.destroy');
 
+    Route::get('authors',[AuthorController::class,'index'])->name('authors.index');
+    Route::delete('authors/{id}',[AuthorController::class,'destroy'])->name('authors.destroy');
+
 });
 
 Route::group(['prefix' => 'author', 'as' => 'author.', 'middleware' => ['auth','author','verified']], function(){
@@ -88,4 +98,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 require __DIR__.'/auth.php';
+// use App\Models\Category;

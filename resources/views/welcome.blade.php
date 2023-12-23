@@ -22,9 +22,8 @@
 
                 @foreach ($categories as $category)
                     <div class="swiper-slide">
-                        <a class="slider-category" href="#">
+                        <a class="slider-category" href="{{Route('category.posts',$category->slug)}}">
                             <div class="blog-image"><img src="{{Storage::disk('public')->url('category/slider/'.$category->image)}}" alt="Blog Image"></div>
-
                             <div class="category">
                                 <div class="display-table center-text">
                                     <div class="display-table-cell">

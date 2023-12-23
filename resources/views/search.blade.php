@@ -1,6 +1,8 @@
 @extends('layouts.frontend.app')
 
-@section('title', 'post-details')
+@section('title')
+    {{ $query }}
+@endsection
 
 @push('css')
     <link href="{{asset('frontend/css/single-post/styles.css')}}" rel="stylesheet">
@@ -25,16 +27,15 @@
 @section('content')
     <div class="header_bg">
         <div class="display-table  center-text">
-			<h1 class="title display-table-cell"><b>All POSTS</b></h1>
+			<h1 class="title display-table-cell text-white"><b>{{ $posts->count() }} {{ $query }}</b></h1>
 		</div>
     </div><!-- slider -->
 
     <section class="recomended-area section">
         <div class="container">
             <div class="row">
-
+                @if ($posts->count() > 0)
                 @foreach ($posts as $post )
-
                     <div class="col-lg-4 col-md-6">
                         <div class="card h-100">
                             <div class="single-post post-style-1">
@@ -81,10 +82,21 @@
                         </div><!-- card -->
                     </div><!-- col-lg-4 col-md-6 -->
                 @endforeach
+                @else
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card h-100">
+                            <div class="single-post post-style-1">
+                                <div class="blog-info">
+                                    <h4 class="title"><a href=""><b>there is no post available</b></a></h4>
+                                </div><!-- blog-info -->
+                            </div><!-- single-post -->
+                        </div><!-- card -->
+                    </div><!-- col-lg-4 col-md-6 -->
+                @endif
 
             </div><!-- row -->
 
-            {{$posts->links()}} <!-- pagination -->
+            {{-- {{$posts->links()}}  --}}
 
         </div><!-- container -->
     </section>
