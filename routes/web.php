@@ -21,8 +21,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Author\CommentController as AuthorCommentController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\Admin\AuthorController;
-
+use App\Http\Controllers\Admin\AuthorController as ListAuthorController;
+use App\Http\Controllers\AuthorController;
 
 
 /*
@@ -44,6 +44,8 @@ Route::get('posts',[PostController::class,'index'])->name('posts.index');
 
 Route::get('category/{slug}',[PostController::class,'postByCategory'])->name('category.posts');
 Route::get('tag/{slug}',[PostController::class,'postByTag'])->name('tag.posts');
+
+route::get('profile/{username}',[AuthorController::class,'profile'])->name('author.posts');
 
 Route::get('search',[SearchController::class,'search'])->name('search');
 
@@ -73,8 +75,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth' ,'a
     Route::get('comments',[AdminCommentController::class,'index'])->name('comments.index');
     Route::delete('comments/{id}',[AdminCommentController::class,'destroy'])->name('comments.destroy');
 
-    Route::get('authors',[AuthorController::class,'index'])->name('authors.index');
-    Route::delete('authors/{id}',[AuthorController::class,'destroy'])->name('authors.destroy');
+    Route::get('authors',[ListAuthorController::class,'index'])->name('authors.index');
+    Route::delete('authors/{id}',[ListAuthorController::class,'destroy'])->name('authors.destroy');
 
 });
 

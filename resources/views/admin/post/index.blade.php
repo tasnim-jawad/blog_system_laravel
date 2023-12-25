@@ -90,7 +90,7 @@
                                                         </button>
                                                     @endif
                                                     <a class="btn btn-sm btn-primary waves-effect" href="{{Route('admin.post.show' ,$post->id)}}"><i class="material-icons">visibility</i></a>
-                                                    <a class="btn btn-sm btn-info waves-effect" href="{{Route('admin.post.edit' ,$post->id)}}"><i class="material-icons">edit</i></a>
+                                                        <a class="btn btn-sm btn-info waves-effect" href="{{Route('admin.post.edit' ,$post->id)}}" {{$post->user->role_id != 1 ? 'disabled' : ""}}><i class="material-icons">edit</i></a>
                                                     <button class="btn btn-sm btn-danger waves-effect" type="button" onclick="deletePost({{$post->id}})">
                                                         <i class="material-icons">delete</i>
                                                     </button>

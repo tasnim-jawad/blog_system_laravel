@@ -40,7 +40,7 @@
                             <div class="post-info">
 
                                 <div class="left-area">
-                                    <a class="avatar" href="#"><img src="{{Storage::disk('public')->url('profile/'.$post->user->image)}}" alt="Profile Image"></a>
+                                    <a class="avatar" href="{{ Route('author.posts',$post->user->username) }}"><img src="{{Storage::disk('public')->url('profile/'.$post->user->image)}}" alt="Profile Image"></a>
                                 </div>
 
                                 <div class="middle-area">
@@ -148,11 +148,11 @@
 
                                 <div class="blog-image"><img src="{{Storage::disk('public')->url('post/'.$rendomPost->image)}}" alt="Blog Image"></div>
 
-                                <a class="avatar" href="#"><img src="{{Storage::disk('public')->url('profile/'.$rendomPost->user->image)}}" alt="Profile Image"></a>
+                                <a class="avatar" href="{{ Route('author.posts',$rendomPost->user->username) }}"><img src="{{Storage::disk('public')->url('profile/'.$rendomPost->user->image)}}" alt="Profile Image"></a>
 
                                 <div class="blog-info">
 
-                                    <h4 class="title"><a href="{{Route('post.details',$rendomPost->slug)}}"><b>{{$rendomPost->title}}</b></a></h4>
+                                    <h4 class="title"><a href="{{ Route('post.details',$rendomPost->slug) }}"><b>{{$rendomPost->title}}</b></a></h4>
 
                                     <ul class="post-footer">
                                         <li>
@@ -227,7 +227,7 @@
                                 <div class="comment">
                                     <div class="post-info">
                                         <div class="left-area">
-                                            <a class="avatar" href="#"><img src="{{Storage::disk('public')->url('profile/'.$comment->user->image)}}" alt="Profile Image"></a>
+                                            <a class="avatar" href="{{ Route('author.posts',$post->user->username) }}"><img src="{{Storage::disk('public')->url('profile/'.$comment->user->image)}}" alt="Profile Image"></a>
                                         </div>
                                         <div class="middle-area">
                                             <a class="name" href="#"><b>{{$comment->user->name}}</b></a>
